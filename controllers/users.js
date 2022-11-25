@@ -5,12 +5,11 @@ const User = require('../models/user');
 const BadRequest = require('../errors/BadRequest');
 const Conflict = require('../errors/Conflict');
 const {
-  BAD_REQUEST_VALIDATION_ERROR, CONFLICT_ERROR, WRONG_DATA_RESPONSE, SUCCESS_LOGIN,
+  BAD_REQUEST_VALIDATION_ERROR, CONFLICT_ERROR, WRONG_DATA_RESPONSE, SUCCESS_LOGIN, SAME_EMAIL,
 } = require('../utils/constants');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// eslint-disable-next-line consistent-return
 module.exports.postProfile = async (req, res, next) => {
   const {
     email, password,
@@ -32,18 +31,24 @@ module.exports.postProfile = async (req, res, next) => {
   }
 };
 
-// eslint-disable-next-line consistent-return
 module.exports.updateUser = async (req, res, next) => {
   try {
+    const { email } = req.body;
     const user = { name: req.body.name, email: req.body.email };
     const owner = req.user._id;
+    const dbUser = await User.findOne({ email });
+    console.log(dbUser);
     const val = await User.findByIdAndUpdate(owner, user, { new: true, runValidators: true });
-    console.log(owner);
-    console.log(user);
+    if (dbUser && dbUser.email === val.email) {
+      return next(new Conflict(SAME_EMAIL));
+    }
     res.send(val);
   } catch (error) {
     if (error.name === 'ValidationError') {
       return next(new BadRequest(BAD_REQUEST_VALIDATION_ERROR));
+    }
+    if (error.code === 11000) {
+      console.log('привет');
     }
     next(error);
   }

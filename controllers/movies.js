@@ -6,7 +6,6 @@ const {
   BAD_REQUEST_VALIDATION_ERROR, NOT_FOUND_DELETING_CARD, FORBIDDEN_RESPONSE, BAD_REQUEST_CAST_ERROR,
 } = require('../utils/constants');
 
-// eslint-disable-next-line consistent-return
 module.exports.postCard = async (req, res, next) => {
   try {
     const owner = req.user._id;
@@ -33,7 +32,6 @@ module.exports.getCards = async (_, res, next) => {
   }
 };
 
-// eslint-disable-next-line consistent-return
 module.exports.deleteCard = async (req, res, next) => {
   console.log(req.params);
   try {

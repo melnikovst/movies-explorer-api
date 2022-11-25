@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 const { Joi, celebrate } = require('celebrate');
 const { REGEXP } = require('../utils/constants');
 

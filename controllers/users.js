@@ -39,8 +39,10 @@ module.exports.updateUser = async (req, res, next) => {
     const dbUser = await User.findOne({ email });
     console.log(dbUser);
     const val = await User.findByIdAndUpdate(owner, user, { new: true, runValidators: true });
-    if (dbUser && dbUser.email === val.email) {
-      return next(new Conflict(SAME_EMAIL));
+    if (dbUser) {
+      if (dbUser.email === val.email) {
+        return next(new Conflict(SAME_EMAIL));
+      }
     }
     res.send(val);
   } catch (error) {

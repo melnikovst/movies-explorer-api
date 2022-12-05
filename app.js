@@ -21,13 +21,13 @@ app.use(parser());
 app.use(helmet());
 app.use(errors());
 app.use(route);
-app.use(handleErrors);
 app.use(limiter);
 
 app.use('*', () => {
   console.log('я умер');
   throw new NotFound(WRONG_URL);
 });
+app.use(handleErrors);
 
 app.listen(PORT, () => {
   console.log(`Развернулося на порту ${PORT}`);

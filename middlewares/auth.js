@@ -7,8 +7,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 module.exports.auth = (req, _, next) => {
   const { jwt } = req.cookies;
   if (!jwt) {
-    console.log(WRONG_ACCESS);
-    return;
+    return next(new Unathorized(WRONG_ACCESS));
   }
   let payload;
   try {

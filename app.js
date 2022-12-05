@@ -7,8 +7,8 @@ const parser = require('cookie-parser');
 const { errors } = require('celebrate');
 const { handleErrors } = require('./errors/error');
 const route = require('./routes/routes');
-/* const NotFound = require('./errors/NotFound');
-const { WRONG_URL } = require('./utils/constants'); */
+const NotFound = require('./errors/NotFound');
+const { WRONG_URL } = require('./utils/constants');
 const limiter = require('./middlewares/limiter');
 
 const { PORT, MONGO } = process.env;
@@ -24,9 +24,10 @@ app.use(route);
 app.use(handleErrors);
 app.use(limiter);
 
-/* app.use('*', () => {
+app.use('*', () => {
+  console.log('я умер');
   throw new NotFound(WRONG_URL);
-}); */
+});
 
 app.listen(PORT, () => {
   console.log(`Развернулося на порту ${PORT}`);

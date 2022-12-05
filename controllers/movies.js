@@ -23,9 +23,9 @@ module.exports.postCard = async (req, res, next) => {
   }
 };
 
-module.exports.getCards = async (_, res, next) => {
+module.exports.getCards = async (req, res, next) => {
   try {
-    const response = await Movie.find({});
+    const response = await Movie.find({ owner: req.user._id });
     res.send(response);
   } catch (error) {
     next(error);
@@ -33,7 +33,6 @@ module.exports.getCards = async (_, res, next) => {
 };
 
 module.exports.deleteCard = async (req, res, next) => {
-  console.log(req.params);
   try {
     const { id } = req.params;
     const response = await Movie.findById(id);

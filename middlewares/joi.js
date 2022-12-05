@@ -58,7 +58,7 @@ module.exports.validateCard = celebrate({
       .required()
       .pattern(REGEXP),
     movieId: Joi
-      .string()
+      .number()
       .required(),
     nameRU: Joi
       .string()

@@ -5,7 +5,6 @@ const { Unathorized } = require('../errors/Unathorized');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.auth = (req, _, next) => {
-  console.log(req.cookies);
   const { jwt } = req.cookies;
   if (!jwt) {
     console.log(WRONG_ACCESS);

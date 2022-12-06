@@ -10,6 +10,8 @@ module.exports.validateAuth = celebrate({
     password: Joi
       .string()
       .required(),
+    name: Joi
+      .string(),
   }),
 });
 

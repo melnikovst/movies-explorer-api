@@ -12,12 +12,12 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.postProfile = async (req, res, next) => {
   const {
-    email, password,
+    email, password, name
   } = req.body;
   try {
     const hashedPassword = await crypt.hash(password, 5);
     const response = await User.create({
-      email, password: hashedPassword,
+      email, name, password: hashedPassword,
     });
     res.send(response);
   } catch (error) {

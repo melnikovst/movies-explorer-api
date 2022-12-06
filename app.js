@@ -19,7 +19,6 @@ mongoose.connect(MONGO);
 app.use(bodyParser.json());
 app.use(parser());
 app.use(helmet());
-app.use(errors());
 app.use(route);
 app.use(limiter);
 
@@ -28,6 +27,7 @@ app.use('*', () => {
   throw new NotFound(WRONG_URL);
 });
 app.use(handleErrors);
+app.use(errors());
 
 app.listen(PORT, () => {
   console.log(`Развернулося на порту ${PORT}`);

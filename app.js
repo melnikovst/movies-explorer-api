@@ -26,8 +26,8 @@ app.use('*', () => {
   console.log('я умер');
   throw new NotFound(WRONG_URL);
 });
-app.use(handleErrors);
 app.use(errors());
+app.use(handleErrors);
 
 app.listen(PORT, () => {
   console.log(`Развернулося на порту ${PORT}`);

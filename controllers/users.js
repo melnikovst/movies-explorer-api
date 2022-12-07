@@ -7,6 +7,7 @@ const Conflict = require('../errors/Conflict');
 const {
   BAD_REQUEST_VALIDATION_ERROR, CONFLICT_ERROR, WRONG_DATA_RESPONSE, SUCCESS_LOGIN,
 } = require('../utils/constants');
+const Unauthorized = require('../errors/Unathorized');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -37,7 +38,6 @@ module.exports.updateUser = async (req, res, next) => {
     const user = { name: req.body.name, email: req.body.email };
     const owner = req.user._id;
     const dbUser = await User.findOne({ email });
-    console.log(dbUser);
     const val = await User.findByIdAndUpdate(owner, user, { new: true, runValidators: true });
     if (dbUser) {
       if (dbUser.email === val.email) {
@@ -61,25 +61,21 @@ module.exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      res.send(WRONG_DATA_RESPONSE);
-      return;
+      return next(new Unauthorized(WRONG_DATA_RESPONSE));
     }
     const matched = await crypt.compare(password, user.password);
     if (!matched) {
-      res.send(WRONG_DATA_RESPONSE);
-      return;
+      return next(new Unauthorized(WRONG_DATA_RESPONSE));
     }
     const key = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'rabotai', {
       expiresIn: '7d',
     });
-    console.log(key);
     res.cookie('jwt', key, {
       sameSite: 'None',
       /*       secure: true, */
       maxAge: 7777777,
     /*       httpOnly: true, */
     }).send({ message: SUCCESS_LOGIN });
-    console.log('Я ВЫПОЛНИЛСЯ');
   } catch (error) {
     next(error);
   }

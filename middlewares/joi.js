@@ -1,7 +1,7 @@
 const { Joi, celebrate } = require('celebrate');
 const { REGEXP } = require('../utils/constants');
 
-module.exports.validateAuth = celebrate({
+module.exports.validateRegister = celebrate({
   body: Joi.object().keys({
     email: Joi
       .string()
@@ -11,7 +11,22 @@ module.exports.validateAuth = celebrate({
       .string()
       .required(),
     name: Joi
-      .string(),
+      .string()
+      .required()
+      .min(2)
+      .max(30),
+  }),
+});
+
+module.exports.validateLogin = celebrate({
+  body: Joi.object().keys({
+    email: Joi
+      .string()
+      .required()
+      .email(),
+    password: Joi
+      .string()
+      .required(),
   }),
 });
 
@@ -19,6 +34,7 @@ module.exports.validateUpdateProfile = celebrate({
   body: Joi.object().keys({
     name: Joi
       .string()
+      .required()
       .min(2)
       .max(30),
     email: Joi
@@ -39,7 +55,7 @@ module.exports.validateCard = celebrate({
       .string()
       .required(),
     year: Joi
-      .number()
+      .string()
       .required(),
     description: Joi
       .string()

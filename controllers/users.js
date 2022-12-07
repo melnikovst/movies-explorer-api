@@ -7,7 +7,7 @@ const Conflict = require('../errors/Conflict');
 const {
   BAD_REQUEST_VALIDATION_ERROR, CONFLICT_ERROR, WRONG_DATA_RESPONSE, SUCCESS_LOGIN,
 } = require('../utils/constants');
-const Unauthorized = require('../errors/Unathorized');
+const Forbidden = require('../errors/Forbidden');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -61,11 +61,11 @@ module.exports.login = async (req, res, next) => {
   try {
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      return next(new Unauthorized(WRONG_DATA_RESPONSE));
+      return next(new Forbidden(WRONG_DATA_RESPONSE));
     }
     const matched = await crypt.compare(password, user.password);
     if (!matched) {
-      return next(new Unauthorized(WRONG_DATA_RESPONSE));
+      return next(new Forbidden(WRONG_DATA_RESPONSE));
     }
     const key = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'rabotai', {
       expiresIn: '7d',
@@ -82,12 +82,11 @@ module.exports.login = async (req, res, next) => {
 };
 
 module.exports.me = async (req, res, next) => {
-  console.log(req.user);
   try {
     const me = await User.findById(req.user._id);
     res.send(me);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    next(err);
   }
 };
 

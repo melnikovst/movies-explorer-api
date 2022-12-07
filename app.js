@@ -12,7 +12,7 @@ const { WRONG_URL } = require('./utils/constants');
 const limiter = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/loggers');
 
-const { PORT = 3001, MONGO = 'mongodb://localhost:27017/filmsdb' } = process.env;
+const { PORT = 3001, MONGO = 'mongodb://localhost:27017/moviesdb' } = process.env;
 
 const app = express();
 mongoose.connect(MONGO);

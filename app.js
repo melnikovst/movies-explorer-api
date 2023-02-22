@@ -18,7 +18,6 @@ const { PORT = 3001, MONGO = "mongodb://localhost:27017/moviesdb" } =
 
 const app = express();
 mongoose.connect(MONGO);
-
 app.use(bodyParser.json());
 app.use(parser());
 app.use(helmet());

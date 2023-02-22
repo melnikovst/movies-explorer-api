@@ -1,10 +1,13 @@
-const Movie = require('../models/movie');
-const BadRequest = require('../errors/BadRequest');
-const Forbidden = require('../errors/Forbidden');
-const NotFound = require('../errors/NotFound');
+const Movie = require("../models/movie");
+const BadRequest = require("../errors/BadRequest");
+const Forbidden = require("../errors/Forbidden");
+const NotFound = require("../errors/NotFound");
 const {
-  BAD_REQUEST_VALIDATION_ERROR, NOT_FOUND_DELETING_CARD, FORBIDDEN_RESPONSE, BAD_REQUEST_CAST_ERROR,
-} = require('../utils/constants');
+  BAD_REQUEST_VALIDATION_ERROR,
+  NOT_FOUND_DELETING_CARD,
+  FORBIDDEN_RESPONSE,
+  BAD_REQUEST_CAST_ERROR,
+} = require("../utils/constants");
 
 module.exports.postCard = async (req, res, next) => {
   try {
@@ -15,7 +18,7 @@ module.exports.postCard = async (req, res, next) => {
     });
     res.send(card);
   } catch (error) {
-    if (error.name === 'ValidationError') {
+    if (error.name === "ValidationError") {
       console.log(error);
       return next(new BadRequest(BAD_REQUEST_VALIDATION_ERROR));
     }
@@ -46,7 +49,7 @@ module.exports.deleteCard = async (req, res, next) => {
     const deletedCard = await Movie.findByIdAndDelete(id);
     res.send({ message: `Удалили карточку ${deletedCard.nameRU}` });
   } catch (error) {
-    if (error.name === 'CastError') {
+    if (error.name === "CastError") {
       return next(new BadRequest(BAD_REQUEST_CAST_ERROR));
     }
     next(error);

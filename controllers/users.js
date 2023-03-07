@@ -85,7 +85,7 @@ module.exports.login = async (req, res, next) => {
         sameSite: "None",
         /* secure: true, */
         maxAge: 7777777,
-        httpOnly: true,
+        /* httpOnly: true, */
       })
       .send({ message: SUCCESS_LOGIN });
   } catch (error) {

@@ -1,6 +1,6 @@
 const allowedCors = [
-  "https://melnikovst.films.nomoredomainsclub.ru/signout",
-  "https://melnikovst.films.nomoredomainsclub.ru/signout",
+  "https://mvies.nomoredomains.work",
+  "http://mvies.nomoredomains.work",
   "http://localhost:3000",
   "https://localhost:3000",
 ];

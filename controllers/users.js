@@ -45,11 +45,6 @@ module.exports.updateUser = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
-    if (dbUser) {
-      if (dbUser.email === val.email) {
-        return next(new Conflict(CONFLICT_ERROR));
-      }
-    }
     res.send(val);
   } catch (error) {
     if (error.name === "ValidationError") {
